@@ -1,15 +1,13 @@
 package java8_practice;
 
 import basecode.Employee;
-import basecode.jsonconversion.Employer;
+import org.springframework.util.ObjectUtils;
 
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
+import java.util.HashMap;
 import java.util.List;
-import java.util.function.Consumer;
-import java.util.function.Predicate;
-import java.util.function.Supplier;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 public class LamdaPractice {
 
@@ -40,6 +38,14 @@ public class LamdaPractice {
 
         System.out.println("Original Employees list" + employees);
         System.out.println("Sorted Employees " + new LamdaPractice().getSortedEmployees());
+
+        //mapping EMPId and Projects
+        Map<Long, List<String>> map = new HashMap<>();
+        if (!ObjectUtils.isEmpty(employees)) {
+            employees.forEach(employee -> map.put(employee.getEmpId(), employee.getProjects()));
+            System.out.println(map);
+        }
+
     }
 }
 
