@@ -3,10 +3,7 @@ package java8_practice;
 import basecode.Employee;
 import org.springframework.util.ObjectUtils;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 
 public class LamdaPractice {
@@ -34,6 +31,12 @@ public class LamdaPractice {
         employees.sort((o1, o2) -> o2.getFirstName().compareTo(o1.getFirstName()));
         return employees;
     }
+
+    public static List<String> getProjects(Long id) {
+
+        List<String> empProjects = employees.stream().filter(employee -> employee.getEmpId().equals(id)).map(Employee::getProjects).flatMap(Collection::stream).collect(Collectors.toList());
+        return empProjects;
+    }
     public static void main(String[] args) {
 
         System.out.println("Original Employees list" + employees);
@@ -42,7 +45,7 @@ public class LamdaPractice {
         //mapping EMPId and Projects
         Map<Long, List<String>> map = new HashMap<>();
         if (!ObjectUtils.isEmpty(employees)) {
-            employees.forEach(employee -> map.put(employee.getEmpId(), employee.getProjects()));
+            employees.forEach(employee -> map.put(employee.getEmpId(), getProjects(employee.getEmpId())));
             System.out.println(map);
         }
 
