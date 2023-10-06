@@ -1,4 +1,4 @@
-package java8_practice.interviews;
+package interviews;
 
 import java8_practice.CorporateEmployees;
 
