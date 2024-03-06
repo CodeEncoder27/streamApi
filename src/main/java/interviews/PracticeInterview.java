@@ -6,6 +6,8 @@ import java.util.*;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
+import static java.util.Arrays.stream;
+
 public class PracticeInterview {
 
     static List<CorporateEmployees> corporateEmployees = new ArrayList<>();
