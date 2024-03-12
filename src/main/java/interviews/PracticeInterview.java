@@ -47,7 +47,7 @@ public class PracticeInterview {
         //for the given employee who's Grade is C apply hike percent of 10
         List<CorporateEmployees> updatedSalary = corporateEmployees.stream().filter(corporateEmployees1 -> corporateEmployees1.getEmpGrade().equals("C"))
                 .map(e -> new CorporateEmployees(
-                        e.getEmpId(), e.getEmpName(), e.getEmpLocation(), e.getEmpSalary() * 0.50, e.getEmpGrade(), e.getEmpProjects()
+                        e.getEmpId(), e.getEmpName(), e.getEmpLocation(), e.getEmpSalary() * 0.50, e.getEmpGrade(),e.getDepartmentName(), e.getEmpProjects()
                 )).collect(Collectors.toList());
         System.out.println("Updated After Hike " + updatedSalary);
 
@@ -212,7 +212,7 @@ public class PracticeInterview {
                 .collect(toMap(CorporateEmployees::getEmpGrade, Function.identity(), BinaryOperator.maxBy(Comparator.comparingDouble(CorporateEmployees::getEmpSalary))));
         HighestSalByGrade.entrySet().stream().forEach(ji -> {System.out.println("highest sal by grade " + ji);});
 
-        corporateEmployees.stream().collect(Collectors.groupingBy(CorporateEmployees::getDepartmentName, Function.identity(), BinaryOperator.maxBy(Comparator.comparingDouble(CorporateEmployees::getEmpSalary))));
+//        corporateEmployees.stream().collect(Collectors.groupingBy(CorporateEmployees::getDepartmentName, Function.identity(), BinaryOperator.maxBy(Comparator.comparingDouble(CorporateEmployees::getEmpSalary))));
 
         //Find the Highest Salary from Employees.
         List<Double> highestSal = corporateEmployees.stream().map(CorporateEmployees::getEmpSalary).sorted(Collections.reverseOrder()).limit(1).toList();
@@ -230,6 +230,15 @@ public class PracticeInterview {
         //Write a java program to find Same salary Employees in Organization using Java 8 Stream API?
         String d = new String("5");
         System.out.println(10 + 5 + d + 9 + 8);
+
+        //String reverse
+
+        String outpits = "";
+        for (int y = 0; y<in.length(); y++ ){
+            char chr = in.charAt(y);
+            outpits = chr + outpits;
+        }
+        System.out.println("Reverse of String is " + outpits);
 
     }
     static String removeOddIndexCharacters(String s) {
