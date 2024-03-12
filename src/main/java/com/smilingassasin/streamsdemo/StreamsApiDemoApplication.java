@@ -178,9 +178,27 @@ public class StreamsApiDemoApplication {
 //        //Parallel Stream
 //
 
+//try {
+//    int a = args.length;
+//    int b =10/a;
+//    System.out.println(a);
+//}catch (NumberFormatException e) {
+//    System.out.println("Hello world");
+//}
 
 
    }
 
 
+}
+class a {}
+class b extends a {}
+
+class  test{
+    public static void main(String[] args) {
+        List<? super a> k = new ArrayList<>();
+        List<? extends b> k3 = new ArrayList<>();
+        k.add(new a());
+
+    }
 }

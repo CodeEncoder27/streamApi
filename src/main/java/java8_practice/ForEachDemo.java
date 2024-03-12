@@ -4,10 +4,7 @@ import basecode.Employee;
 import org.apache.commons.codec.binary.StringUtils;
 import org.springframework.util.ObjectUtils;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Scanner;
+import java.util.*;
 import java.util.stream.Collectors;
 
 public class ForEachDemo {
@@ -54,8 +51,8 @@ public class ForEachDemo {
         }while(ObjectUtils.isEmpty(s));
 
         //count high salaried employees
-//       long countEmployess =  employees.stream().filter(i -> i.getSalary() > 25000).count();
-//        System.out.println("total  High paid Employess]" + countEmployess);
+       long countEmployess =  employees.stream().filter(i -> i.getSalary() > 25000).count();
+        System.out.println("total  High paid Employess]" + countEmployess);
 
 
     }

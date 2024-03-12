@@ -1,6 +1,7 @@
 package collectionspractice;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 public class MapsPractice {
     public static void main(String[] args) {
@@ -30,6 +31,11 @@ public class MapsPractice {
         //finding the size of Map
         int size = empIdName.entrySet().size();
         System.out.println("using Map.size() to count(size) " + size);
+
+        //sorting in hashmap
+//        empIdName.entrySet().stream().sorted((i,y) -> {
+//            return i.getValue() - y.getValue();
+//        }).collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue, (i , y) -> i, LinkedHashMap::new));
 
         Map<String, String> books = new HashMap<>();
         books.put(

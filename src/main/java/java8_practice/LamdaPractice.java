@@ -3,6 +3,7 @@ package java8_practice;
 import basecode.Employee;
 import org.springframework.util.ObjectUtils;
 
+import java.nio.DoubleBuffer;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -41,6 +42,15 @@ public class LamdaPractice {
             employees.forEach(employee -> map.put(employee.getEmpId(), getProjects(employee.getEmpId())));
             System.out.println("mapped employees to projects" + map);
         }
+
+        List<Double> salaries = employees.stream().map(Employee::getSalary).toList();
+        System.out.println("All salries" + salaries);
+
+        List<Double> reversesal = employees.stream().map(Employee::getSalary).sorted(Collections.reverseOrder()).toList();
+        System.out.println("All salries" + reversesal);
+
+        Double collect = employees.stream().map(Employee::getSalary).sorted(Collections.reverseOrder()).skip(1).findFirst().get();
+        System.out.println("third higheste salary " + collect.toString());
 
     }
 }

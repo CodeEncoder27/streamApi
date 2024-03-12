@@ -23,8 +23,8 @@ public class MapAndFlatMapJava8 {
 
     public static void main(String[] args) {
 
-        List<String> getNames = employees.stream().map(Employee::getFirstName).collect(Collectors.toList());
-        System.out.println(getNames);
+//        List<String> getNames = employees.stream().map(Employee::getFirstName).collect(Collectors.toList());
+//        System.out.println(getNames);
 
         List<List<String>>  getprojects =employees.stream().map(Employee::getProjects).collect(Collectors.toList());
         System.out.println(" before flatmap"+getprojects);
@@ -34,10 +34,10 @@ public class MapAndFlatMapJava8 {
 //        getNames().stream().forEach(System.out::println);
 
         Map<String, List<String>> empNameandProjectsMapped = new HashMap<>();
-//
+
         employees.forEach(employee -> empNameandProjectsMapped.put(employee.getFirstName(), employee.getProjects()));
-//
-//        empNameandProjectsMapped.entrySet().forEach(System.out::println);
+
+        empNameandProjectsMapped.entrySet().forEach(System.out::println);
 
 
 

@@ -4,11 +4,11 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
-public class Interviews1 {
+public class  Interviews1 {
     public static void main(String[] args) {
-        int[] sums = {1,2,3,4,5,6,7,8,9};
+        int[] sums = {1,9,3,4,5,6,7,8,2};
         int target = 10;
-//        System.out.println(Arrays.toString(twoSums(sums, target)));
+        System.out.println(Arrays.toString(twoSums(sums, target)));
         //pallindrom
         String palindrom = "MALtYALAM";
         boolean op = getpallindrome(palindrom,0,palindrom.length() -1);
@@ -22,7 +22,7 @@ public class Interviews1 {
             if(map.containsKey(complement)){
                 return new int[] {map.get(complement), i};
             }
-            map.put(sums[i],i);
+            map.put(sums[i],i); // 10-1 = 9(compl) 1,0(index) ,10-9  = 1(compl) 9,(1)(index)
         }
         return new int[] {};
     }

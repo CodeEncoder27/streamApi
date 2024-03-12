@@ -15,8 +15,8 @@ public class CorporateEmployees {
     private String empName;
     private String empLocation;
     private double empSalary;
-
     private String EmpGrade;
+    private String departmentName;
     private List<String> empProjects;
 
 
