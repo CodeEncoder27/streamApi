@@ -1,6 +1,5 @@
-package designpatterns.builder;
+package designpatterns.creational.builder;
 
-import lombok.Getter;
 import lombok.ToString;
 
 

@@ -86,7 +86,7 @@ public class PracticeInterview {
         // find first non-repeat element
         Map<String,Long> duplicateOu2 = Arrays.stream(in.split(""))
                 .collect(groupingBy(Function.identity(),LinkedHashMap::new,Collectors.counting()));
-        System.out.println("--------------------------------" + duplicateOu2);
+        System.out.println("---------First non Repeat-----------------------" + duplicateOu2);
 
         String nonrepeatVal = duplicateOu2.entrySet().stream().filter(i -> i.getValue() == 1)
                 .findFirst().get().getKey();
@@ -221,7 +221,9 @@ public class PracticeInterview {
         System.out.println("*************?????????????????????????*");
         //Write a java program to find Same salary Employees in Organization using Java 8 Stream API?
         Map<Double, List<CorporateEmployees>> sameSal = corporateEmployees.stream().collect(groupingBy(CorporateEmployees::getEmpSalary,toList()));
-        sameSal.entrySet().stream().filter(m -> m.getValue().size() > 1).forEach(System.out::println);
+        sameSal.entrySet().stream().filter(m -> m.getValue().size() > 1).forEach(ji -> {
+            System.out.println("SAME SAlaRied Emp are" + ji);
+        });
 //        for (Map.Entry<Double,List<CorporateEmployees>> ji :sameSal.entrySet()){
 //                if (ji.getValue().size() > 1 ){
 //                    System.out.println(ji.getKey() + " " + ji.getValue());
@@ -239,6 +241,20 @@ public class PracticeInterview {
             outpits = chr + outpits;
         }
         System.out.println("Reverse of String is " + outpits);
+
+        int[] anish = new int[]{1,68,89,90,56};
+        //
+        int first = 0,second =0;
+        first = second = anish[0];
+        for(int i = 1; i< anish.length ; i++){
+            if(first < anish[i]){
+                second = first;
+                first = anish[i];
+            } else if (anish[i] > second && anish[i] != first) {
+                second = anish[i];
+            }
+        }
+        System.out.println(Arrays.toString(anish));
 
     }
     static String removeOddIndexCharacters(String s) {

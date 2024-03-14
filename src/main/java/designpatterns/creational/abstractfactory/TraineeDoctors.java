@@ -1,4 +1,4 @@
-package designpatterns.abstractfactory;
+package designpatterns.creational.abstractfactory;
 
 public class TraineeDoctors implements Profession{
     @Override

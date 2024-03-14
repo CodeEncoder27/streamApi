@@ -1,4 +1,4 @@
-package designpatterns.builder;
+package designpatterns.creational.builder;
 
 public class TestBuilder {
     public static void main(String[] args) {
