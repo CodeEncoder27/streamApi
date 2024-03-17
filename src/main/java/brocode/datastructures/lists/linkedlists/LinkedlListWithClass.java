@@ -4,7 +4,7 @@ import org.w3c.dom.Node;
 
 public class LinkedlListWithClass {
 
-    Node head;
+    static Node head;
 
     static class Node {
 
@@ -42,7 +42,7 @@ public class LinkedlListWithClass {
         Node current = l.head;
 
         while (current!= null){
-            System.out.println(current.data + " " );
+            System.out.print(current.data + ", " );
             current = current.next;
         }
 
@@ -68,6 +68,21 @@ public class LinkedlListWithClass {
         }
 
         return null;
+    }
+
+    Node reverse(Node node) {
+        //Reversing LL
+        Node pre = null;
+        Node current = node;
+        Node next = null;
+        while (current != null){
+            next = current.next;
+            current.next = pre;
+            pre = current;
+            current = next;
+        }
+        node = pre;
+        return node;
     }
 
 }

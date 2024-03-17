@@ -242,6 +242,8 @@ public class PracticeInterview {
         }
         System.out.println("Reverse of String is " + outpits);
 
+
+
         int[] anish = new int[]{1,68,89,90,56};
         //
         int first = 0,second =0;
@@ -256,7 +258,22 @@ public class PracticeInterview {
         }
         System.out.println(Arrays.toString(anish));
 
+        System.out.println("Reveserd String in same position " + reverseStrindInSamePositn());
     }
+
+    static String reverseStrindInSamePositn(){
+        String po = "Anish yerubandi";
+        String[] s1 = po.split(" ");
+        String dummy = "";
+        for (String mn: s1){
+            for (int r = mn.length() - 1;r >= 0; r--){
+                dummy = dummy + mn.charAt(r);
+            }
+            dummy = dummy + " ";
+        }
+        return dummy;
+    }
+
     static String removeOddIndexCharacters(String s) {
 
         // Stores the resultant string

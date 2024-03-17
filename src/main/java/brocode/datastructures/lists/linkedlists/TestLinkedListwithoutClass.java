@@ -1,5 +1,9 @@
 package brocode.datastructures.lists.linkedlists;
 
+import java.util.LinkedList;
+
+import static brocode.datastructures.lists.linkedlists.LinkedlListWithClass.head;
+
 public class TestLinkedListwithoutClass {
 
     public static void main(String[] args) {
@@ -9,7 +13,19 @@ public class TestLinkedListwithoutClass {
         l = LinkedlListWithClass.insert(l, 5);
         l = LinkedlListWithClass.insert(l, 6);
 
-        l.printList(l);
+//        LinkedlListWithClass.printList(l);
+        LinkedlListWithClass list = new LinkedlListWithClass();
+        head = new LinkedlListWithClass.Node(85);
+        head.next = new LinkedlListWithClass.Node(15);
+        head.next.next = new LinkedlListWithClass.Node(4);
+        head.next.next.next = new LinkedlListWithClass.Node(20);
+        System.out.println("before");
+        LinkedlListWithClass.printList(list);
+
+        head = list.reverse(head);
+        System.out.println("after");
+        LinkedlListWithClass.printList(list);
+
 
     }
 }
