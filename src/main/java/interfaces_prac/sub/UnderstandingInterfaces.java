@@ -1,5 +1,7 @@
 package interfaces_prac.sub;
 
+import java.util.Arrays;
+
 interface Camera {
     void takePhoto();
     void deletePhoto();
@@ -67,8 +69,9 @@ class SmartPhones extends Cellphone implements Camera, Wifi {
                 f[i] = f[i + 1];
                 f[i +1] = temp;
             }
-            System.out.println("Printed" + f.toString());
+             Arrays.stream(f).forEach(System.out::print);
         }
+
 
     }
 }
