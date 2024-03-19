@@ -8,6 +8,7 @@ interface Camera {
 
 interface Wifi {
     void connectToWifi();
+    void takePhoto();
     String [] getAvailableNetworks();
     void disconnectFromWifi();
 }
@@ -53,6 +54,22 @@ class SmartPhones extends Cellphone implements Camera, Wifi {
     public void disconnectFromWifi() {
         System.out.println("Disconnecting from wifi");
     }
+
+    public static void main(String[] args) {
+        Camera c = new SmartPhones();
+        c.takePhoto();
+        Integer[] f = new Integer[] {1,2,3};
+        int temp ;
+
+        for (int i = 1; i < f.length -1; i++){
+            if (f[i] < f[i +1]){
+                temp = f[i];
+                f[i] = f[i + 1];
+                f[i +1] = temp;
+            }
+            System.out.println("Printed" + f.toString());
+        }
+
+    }
 }
-public class UnderstandingInterfaces {
-}
+
