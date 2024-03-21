@@ -256,7 +256,7 @@ public class PracticeInterview {
                 second = anish[i];
             }
         }
-        System.out.println(Arrays.toString(anish));
+        System.out.println(" Second highest "+(second));
 
         System.out.println("Reveserd String in same position " + reverseStrindInSamePositn());
     }
