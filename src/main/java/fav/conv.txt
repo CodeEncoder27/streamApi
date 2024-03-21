@@ -1,0 +1,225 @@
+packaget.mytye.common.converters;
+
+importt.exceptions.BadRequestException;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.JavaType;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import org.springframework.stereotype.Component;
+import org.springframework.util.StringUtils;
+
+import jakarta.validation.ConstraintViolation;
+import jakarta.validation.Validation;
+import jakarta.validation.Validator;
+import jakarta.validation.ValidatorFactory;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Set;
+
+@Component
+public class JsonDeserializer {
+
+    private static final String FAIL_TO_CONVERT_TEMPLATE_MESSAGE = "Fail to deserialize the request. (%s)";
+
+    private static final String VALIDATION_FAIL_TEMPLATE_MESSAGE = "%s [%s]";
+
+    public static <T> T deserializeAndValidate(Object jsonObject, Class<?> target) {
+        T returnObj = deserialize(jsonObject, target);
+        validate(returnObj);
+        return returnObj;
+
+    }
+
+    public static <T> T deserialize(Object jsonObject, Class<?> target) {
+        ObjectMapper objectMapper = new ObjectMapper();
+        objectMapper.findAndRegisterModules();
+
+        try {
+            JavaType type = objectMapper.getTypeFactory().constructType(target);
+            return objectMapper.readValue(objectMapper.writeValueAsString(jsonObject), type);
+        } catch (JsonProcessingException jpe) {
+            throw new BadRequestException(String.format(FAIL_TO_CONVERT_TEMPLATE_MESSAGE, jpe.getMessage()));
+        }
+    }
+
+    public static <T> List<T> deserializeAsList(String json, Class<T> targetClass) {
+        if (StringUtils.isEmpty(json)) {
+            return new ArrayList<>();
+        }
+
+        ObjectMapper objectMapper = new ObjectMapper();
+        objectMapper.findAndRegisterModules();
+        try {
+            Class<T[]> arrayClass = (Class<T[]>) Class.forName("[L" + targetClass.getName() + ";");
+            T[] objects = objectMapper.readValue(json, arrayClass);
+            return Arrays.asList(objects);
+        } catch (IOException | ClassNotFoundException e) {
+            throw new BadRequestException(String.format(FAIL_TO_CONVERT_TEMPLATE_MESSAGE, e.getMessage()));
+        }
+    }
+
+    public static void validate(Object object) {
+        ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
+        Validator validator = factory.getValidator();
+        Set<ConstraintViolation<Object>> a = validator.validate(object);
+
+        if (a.size() > 0) {
+            ConstraintViolation<Object> constraintViolation = a.stream().findFirst().get();
+            throw new BadRequestException(String.format(VALIDATION_FAIL_TEMPLATE_MESSAGE, constraintViolation.getMessage(), constraintViolation.getPropertyPath()));
+        }
+    }
+}
+
+
+----
+
+
+packaget.mytye.common.converters;
+
+importt.exceptions.BadRequestException;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializationFeature;
+import org.springframework.stereotype.Component;
+
+@Component
+public class JsonSerializer {
+
+    private static final String FAIL_TO_CONVERT_TEMPLATE_MESSAGE = "Fail to serialize the object to json. (%s)";
+
+    public static String serialize(Object object) {
+        ObjectMapper objectMapper = new ObjectMapper();
+        objectMapper.disable(SerializationFeature.FAIL_ON_EMPTY_BEANS);
+        objectMapper.disable(SerializationFeature.FAIL_ON_SELF_REFERENCES);
+        objectMapper.setSerializationInclusion(JsonInclude.Include.NON_NULL);
+        objectMapper.findAndRegisterModules();
+
+        try {
+            return objectMapper.writeValueAsString(object);
+        } catch (
+                JsonProcessingException jpe) {
+            throw new BadRequestException(String.format(FAIL_TO_CONVERT_TEMPLATE_MESSAGE, jpe.getMessage()));
+        }
+    }
+}
+
+----
+packaget.mytye.common.converters;
+
+import jakarta.persistence.AttributeConverter;
+import jakarta.persistence.Converter;
+
+@Converter(autoApply = true)
+public class LongToBooleanConverter implements AttributeConverter<Boolean, Long> {
+
+    @Override
+    public Long convertToDatabaseColumn(Boolean attribute) {
+        if (attribute) {
+            return 1L;
+        } else {
+            return 0L;
+        }
+    }
+
+    @Override
+    public Boolean convertToEntityAttribute(Long dbData) {
+        return dbData != null && dbData > 0;
+    }
+}
+
+--
+
+
+packaget.mytye.common.converters;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.convert.ConversionService;
+import org.springframework.core.convert.TypeDescriptor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
+import org.springframework.stereotype.Component;
+
+import java.util.List;
+
+@Component
+public class PageConverter {
+
+    @Autowired
+    ConversionService conversionService;
+
+    public <T> Page<T> convert(Page<?> fromPage, Pageable pageable, Class<?> fromType, Class<?> toType) {
+
+        List<T> toList = (List<T>) conversionService.convert(fromPage.getContent()
+                , TypeDescriptor.collection(List.class, TypeDescriptor.valueOf(fromType))
+                , TypeDescriptor.collection(List.class, TypeDescriptor.valueOf(toType)));
+
+        return new PageImpl<>(toList, pageable, fromPage.getTotalElements());
+    }
+}
+
+
+--
+
+packaget.mytye.common.converters;
+
+importt.mytye.common.constants.CharYesNo;
+
+import jakarta.persistence.AttributeConverter;
+import jakarta.persistence.Converter;
+
+@Converter(autoApply = true)
+public class StringToBooleanConverter implements AttributeConverter<Boolean, String> {
+
+    @Override
+    public String convertToDatabaseColumn(Boolean trueFalse) {
+        return (trueFalse ? CharYesNo.YES.getValue() : CharYesNo.NO.getValue());
+    }
+
+    @Override
+    public Boolean convertToEntityAttribute(String charYCharN) {
+        if (charYCharN == null) {
+            return null;
+        } else {
+            return charYCharN.equals(CharYesNo.YES.getValue());
+        }
+    }
+}
+
+---
+
+packaget.mytye.common.converters;
+
+importt.mytye.common.constants.SourceSiteEnum;
+import org.springframework.stereotype.Component;
+
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
+import java.time.temporal.ChronoUnit;
+
+@Component
+public class ZonedDateTimeConverter {
+
+    public ZonedDateTime convertToDatabaseColumnTruncatedToDay(ZonedDateTime zonedDateTime, SourceSiteEnum sourceSiteEnum) {
+        if (zonedDateTime == null || sourceSiteEnum == null) {
+            return null;
+        } else {
+            LocalDateTime localDateTime = LocalDateTime.ofInstant(zonedDateTime.toInstant(), ZoneId.of(sourceSiteEnum.getZoneName())).truncatedTo(ChronoUnit.DAYS);
+            return localDateTime.atZone(ZoneId.of(sourceSiteEnum.getZoneName()));
+        }
+    }
+
+    public ZonedDateTime convertToDatabaseColumnTruncatedToTime235959(ZonedDateTime zonedDateTime, SourceSiteEnum sourceSiteEnum) {
+        if (zonedDateTime == null || sourceSiteEnum == null) {
+            return null;
+        } else {
+            LocalDateTime localDateTime = LocalDateTime.ofInstant(zonedDateTime.toInstant(), ZoneId.of(sourceSiteEnum.getZoneName())).truncatedTo(ChronoUnit.DAYS).withHour(23).withMinute(59).withSecond(59).withNano(999999999);
+            return localDateTime.atZone(ZoneId.of(sourceSiteEnum.getZoneName()));
+        }
+    }
+
+}
+
