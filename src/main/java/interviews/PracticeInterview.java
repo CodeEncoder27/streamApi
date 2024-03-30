@@ -70,8 +70,7 @@ public class PracticeInterview {
 
         //Given string array  find  char occurenc Characters from a String and Count using java 8
          Map<String,Long> duplicateOu = Arrays.stream(in.split(""))
-                                              .collect(groupingBy
-                                                                            (Function.identity(),Collectors.counting())
+                                              .collect(groupingBy(Function.identity(),Collectors.counting())
                                                       );
         System.out.println("char occurence: " + duplicateOu);
         //Given string array  find  Duplicate Characters from a String and Count Count using java 8
@@ -106,8 +105,8 @@ public class PracticeInterview {
 
 
        //java program to find second highest num in an array
-        int[] input = {5,9,11,7,21,0,3};
-        Integer secondHighest = Arrays.stream(input).boxed().sorted(Comparator.reverseOrder()).skip(1).findFirst().get();
+        int[] inputt = {5,9,11,7,21,0,3};
+        Integer secondHighest = Arrays.stream(inputt).boxed().sorted(Comparator.reverseOrder()).skip(1).findFirst().get();
         System.out.println(secondHighest);
 
         //java program to find longest string in an array
@@ -244,35 +243,153 @@ public class PracticeInterview {
 
 
 
-        int[] anish = new int[]{1,68,89,90,56};
-        //
-        int first = 0,second =0;
-        first = second = anish[0];
-        for(int i = 1; i< anish.length ; i++){
-            if(first < anish[i]){
-                second = first;
-                first = anish[i];
-            } else if (anish[i] > second && anish[i] != first) {
-                second = anish[i];
+        int[] arr = new int[]{1,68,89,90,56};
+        //second smallest in array using java 8
+        List<Integer> secondsmallest =Arrays.stream(arr).boxed().sorted(Comparator.reverseOrder()).toList();
+        System.out.println("secobf smalels" + secondsmallest);
+
+        int smallest = Integer.MAX_VALUE;
+        // traversing the array to find
+        // smallest element.
+        int n = arr.length;
+        for (int i = 0; i < n; i++) {
+            if (arr[i] < smallest) {
+                smallest = arr[i];
             }
         }
-        System.out.println(" Second highest "+(second));
+        System.out.println("smallest element is: "
+                + smallest);
+
+        int second_smallest = Integer.MAX_VALUE;
+
+        // traversing the array to find second smallest
+        // element
+        for (int i = 0; i < n; i++) {
+            if (arr[i] < second_smallest && arr[i] > smallest) {
+                second_smallest = arr[i];
+            }
+        }
+        System.out.println("second smallest element is: "
+                + second_smallest);
+
+
+
+        int first, second, arr_size = arr.length;
+
+        /* There should be atleast two elements */
+        if (arr_size < 2) {
+            System.out.println(" Invalid Input ");
+            return;
+        }
+
+        first = second = Integer.MAX_VALUE;
+        for (int i = 0; i < arr_size; i++) {
+            /* If current element is smaller than first
+              then update both first and second */
+            if (arr[i] < first) {
+                second = first;
+                first = arr[i];
+            }
+
+            /* If arr[i] is in between first and second
+               then update second  */
+            else if (arr[i] < second && arr[i] != first)
+                second = arr[i];
+        }
+        if (second == Integer.MAX_VALUE)
+            System.out.println("There is no second"
+                    + "smallest element");
+        else
+            System.out.println("The smallest element is "
+                    + first
+                    + " and second Smallest"
+                    + " element is " + second);
 
         System.out.println("Reveserd String in same position " + reverseStrindInSamePositn());
+
+        System.out.println(isPower(10, 1));
+        System.out.println(isPower(1, 20) ? 1 : 0);
+        System.out.println(isPower(2, 128) ? 1 : 0);
+        System.out.println(isPower(2, 30) ? 1 : 0);
+
+
+        String input = "abcdddss" ;
+        Map<Character, Integer> charCount = new HashMap<Character, Integer>();
+
+        char curChar = input.charAt(0);
+        int maxx = -1;
+        char maxChar = curChar;
+
+        for(int i=1; i<input.length(); i++) {
+
+            char nextChar = input.charAt(i);
+            if(curChar == nextChar) {
+
+                int count1 = 1;
+                if(charCount.get(curChar) != null) {
+
+                    count1 = (int) charCount.get(curChar);
+                }
+
+                count1 = count1+1;
+                charCount.put(curChar, count1);
+
+                if(count1 > maxx) {
+
+                    maxx = count1;
+                    maxChar = curChar;
+                }
+            }
+            else {
+
+                curChar = nextChar;
+
+            }
+
+        }// end for
+
+        if(maxx == -1) {
+            System.out.println("no longest uniform sub- string");
+        }
+        else {
+            System.out.println(maxChar + " occurs " + maxx +" times");
+        }
+    }
+
+    public static boolean isPower(int x, int y)
+    {
+        // The only power of 1 is 1 itself
+        if (x == 1)
+            return (y == 1);
+
+        // Repeatedly compute power of x
+        int pow = 1;
+        while (pow < y)
+            pow = pow * x;
+
+        // Check if power of x becomes y
+        return (pow == y);
     }
 
     static String reverseStrindInSamePositn(){
         String po = "Anish yerubandi";
-        String[] s1 = po.split(" ");
+        String[] s1 = po.split(" ");// [Anish, yerubandi]
         String dummy = "";
         for (String mn: s1){
             for (int r = mn.length() - 1;r >= 0; r--){
-                dummy = dummy + mn.charAt(r);
+                dummy = dummy + mn.charAt(r); //hsina
             }
+//            for (int r = 0;r <= mn.length() -1 ; r++){
+//                char pos = mn.charAt(r);
+//                dummy = pos + dummy ; //hsina
+//            }
             dummy = dummy + " ";
         }
         return dummy;
     }
+
+
+
 
     static String removeOddIndexCharacters(String s) {
 
