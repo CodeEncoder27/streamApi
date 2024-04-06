@@ -354,6 +354,15 @@ public class PracticeInterview {
         else {
             System.out.println(maxChar + " occurs " + maxx +" times");
         }
+
+        //@ Binary search
+        Integer[] jj = new Integer[]{5,6,7,8,9,10,11,12,13,3,2,1,77};
+       int resulted =  BinarySearch(jj,13);
+       if(resulted == -1) {
+           System.out.println("the element searched for is not found " + resulted);
+       } else {
+           System.out.println("he element searched for is found" + resulted);
+       }
     }
 
     public static boolean isPower(int x, int y)
@@ -422,5 +431,25 @@ public class PracticeInterview {
 //
 //    }
 
+    static Integer BinarySearch(Integer[] jj, int searchElement){
+
+        int start = 0;
+        int end = jj.length -1;
+
+        while (start <= end) {
+
+            int middle = (start + end) / 2;
+
+            if (jj[middle] == searchElement) {
+                return middle;
+            } else if (jj[middle] > searchElement){
+                start = middle -1;
+            } else {
+                start = middle + 1;
+            }
+
+        }
+        return  -1;
+    }
 
 }
