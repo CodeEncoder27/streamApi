@@ -1,8 +1,5 @@
 package Threading;
 
-import org.springframework.util.ObjectUtils;
-
-import java.util.Objects;
 import java.util.Scanner;
 
 public class Threading {

@@ -7,9 +7,7 @@ import java.util.*;
 import java.util.function.BinaryOperator;
 import java.util.function.Function;
 import java.util.stream.Collectors;
-import java.util.stream.IntStream;
 
-import static java.util.Comparator.comparingInt;
 import static java.util.stream.Collectors.*;
 
 public class PracticeInterview {
@@ -184,7 +182,7 @@ public class PracticeInterview {
         System.out.println("usign set approach " + k);
 
 
-        Set<Integer> op = list.stream().filter(i -> Collections.frequency(list, i) > 1).collect(Collectors.toSet());
+        List<Integer> op = list.stream().filter(i -> Collections.frequency(list, i) > 1).toList();
         System.out.println("using frequency collection" + op);
 
         Set<Integer> c= list.stream().collect(groupingBy(Function.identity(),Collectors.counting()))
@@ -219,10 +217,27 @@ public class PracticeInterview {
 
         System.out.println("*************?????????????????????????*");
         //Write a java program to find Same salary Employees in Organization using Java 8 Stream API?
-        Map<Double, List<CorporateEmployees>> sameSal = corporateEmployees.stream().collect(groupingBy(CorporateEmployees::getEmpSalary,toList()));
+        Map<Double, List<CorporateEmployees>> sameSal = corporateEmployees
+                                                        .stream()
+                                                        .collect(groupingBy(CorporateEmployees::getEmpSalary,toList()));
         sameSal.entrySet().stream().filter(m -> m.getValue().size() > 1).forEach(ji -> {
-            System.out.println("SAME SAlaRied Emp are" + ji);
+            System.out.println("SAME SAlaRied Emp are " + ji);
         });
+
+        //Write a java program to find Same salary Employees in Organization using Java 8 Stream API and return only the names?
+        Map<Double,List<String>> empNAmesHighsal = corporateEmployees
+                                                    .stream()
+                                                    .collect(groupingBy(CorporateEmployees::getEmpSalary,mapping(CorporateEmployees::getEmpName,toList())));
+
+        System.out.println("Same sal emp names " + empNAmesHighsal);
+
+        //Map of Map for getting sal and names , department
+      Map<Double, Map<String ,String >> EmpSalwithNameAndDept = corporateEmployees.stream().collect(Collectors.groupingBy(CorporateEmployees::getEmpSalary, Collectors.toMap(CorporateEmployees::getDepartmentName,CorporateEmployees::getEmpName)));
+
+
+          System.out.println("Same Salaried Employees with Name and dept " + EmpSalwithNameAndDept) ;
+
+
 //        for (Map.Entry<Double,List<CorporateEmployees>> ji :sameSal.entrySet()){
 //                if (ji.getValue().size() > 1 ){
 //                    System.out.println(ji.getKey() + " " + ji.getValue());
@@ -245,7 +260,7 @@ public class PracticeInterview {
 
         int[] arr = new int[]{1,68,89,90,56};
         //second smallest in array using java 8
-        List<Integer> secondsmallest =Arrays.stream(arr).boxed().sorted(Comparator.reverseOrder()).toList();
+        Integer secondsmallest =Arrays.stream(arr).boxed().sorted(Comparator.naturalOrder()).skip(1).limit(1).findFirst().get();
         System.out.println("secobf smalels" + secondsmallest);
 
         int smallest = Integer.MAX_VALUE;
