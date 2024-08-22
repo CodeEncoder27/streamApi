@@ -6,7 +6,6 @@ import java8_practice.CorporateEmployees;
 import java.util.*;
 import java.util.function.BinaryOperator;
 import java.util.function.Function;
-import java.util.stream.Collectors;
 
 import static java.util.stream.Collectors.*;
 
@@ -29,12 +28,12 @@ public class PracticeInterview {
         List<String> v = Arrays.asList("Pune","Mumbai","Delhi","Pune","Bangalore","Mumbai","Pune");
         //Using set to get the duplicates
         Set<String> UniqueValues = new HashSet<>();
-        Set<String> duplicates = v.stream().filter(i -> !UniqueValues.add(i)).collect(Collectors.toSet());
+        Set<String> duplicates = v.stream().filter(i -> !UniqueValues.add(i)).collect(toSet());
         duplicates.stream().forEach(System.out::println);
 
         //Using Map to get the count of duplicate literal
 
-        Map<String,Long> dupMap = v.stream().collect(groupingBy(Function.identity(),Collectors.counting()));
+        Map<String,Long> dupMap = v.stream().collect(groupingBy(Function.identity(), counting()));
         System.out.println("***********************************************");
         System.out.println(dupMap);
 //        dupMap.entrySet().stream().forEach(System.out::println);
@@ -46,7 +45,7 @@ public class PracticeInterview {
         List<CorporateEmployees> updatedSalary = corporateEmployees.stream().filter(corporateEmployees1 -> corporateEmployees1.getEmpGrade().equals("C"))
                 .map(e -> new CorporateEmployees(
                         e.getEmpId(), e.getEmpName(), e.getEmpLocation(), e.getEmpSalary() * 0.50, e.getEmpGrade(),e.getDepartmentName(), e.getEmpProjects()
-                )).collect(Collectors.toList());
+                )).collect(toList());
         System.out.println("Updated After Hike " + updatedSalary);
 
         //Given string array  find  Duplicate Characters from a String and Count
@@ -68,11 +67,11 @@ public class PracticeInterview {
 
         //Given string array  find  char occurenc Characters from a String and Count using java 8
          Map<String,Long> duplicateOu = Arrays.stream(in.split(""))
-                                              .collect(groupingBy(Function.identity(),Collectors.counting())
+                                              .collect(groupingBy(Function.identity(), counting())
                                                       );
         System.out.println("char occurence: " + duplicateOu);
         //Given string array  find  Duplicate Characters from a String and Count Count using java 8
-        List<String>  duplocatElem = duplicateOu.entrySet().stream().filter(i -> i.getValue() > 1).map(Map.Entry::getKey).collect(Collectors.toList());
+        List<String>  duplocatElem = duplicateOu.entrySet().stream().filter(i -> i.getValue() > 1).map(Map.Entry::getKey).collect(toList());
         System.out.println("dupl : " + duplocatElem);
 
         //unique elements
@@ -82,7 +81,7 @@ public class PracticeInterview {
 
         // find first non-repeat element
         Map<String,Long> duplicateOu2 = Arrays.stream(in.split(""))
-                .collect(groupingBy(Function.identity(),LinkedHashMap::new,Collectors.counting()));
+                .collect(groupingBy(Function.identity(),LinkedHashMap::new, counting()));
         System.out.println("---------First non Repeat-----------------------" + duplicateOu2);
 
         String nonrepeatVal = duplicateOu2.entrySet().stream().filter(i -> i.getValue() == 1)
@@ -109,6 +108,15 @@ public class PracticeInterview {
 
         //java program to find longest string in an array
         String[] strinp = {"Java","microservices","Angular","react"};
+        String longest = null;
+
+        for(int io = 0; io < strinp.length  ; io++){
+            for (int i = 1; i <strinp.length -1 ; i++){
+                 longest = strinp[io].length() > strinp[i].length() ? strinp[io] : strinp[i];
+            }
+        }
+        System.out.println(" Longest String found " + longest);
+
        String longestString = Arrays.stream(strinp).reduce((w1,w2)  -> w1.length() > w2.length() ? w1 : w2 ).get();
         System.out.println(longestString);
 
@@ -178,16 +186,16 @@ public class PracticeInterview {
                 2, 59, 59, 34,34,44,44,45,45,46,46,67,67,68,68);
         Set<Integer> duplicateElements = new HashSet<>();
 
-        String k = list.stream().filter(i -> !duplicateElements.add(i)).map(Object::toString).collect(Collectors.joining(", "));
+        String k = list.stream().filter(i -> !duplicateElements.add(i)).map(Object::toString).collect(joining(", "));
         System.out.println("usign set approach " + k);
 
 
         List<Integer> op = list.stream().filter(i -> Collections.frequency(list, i) > 1).toList();
         System.out.println("using frequency collection" + op);
 
-        Set<Integer> c= list.stream().collect(groupingBy(Function.identity(),Collectors.counting()))
+        Set<Integer> c= list.stream().collect(groupingBy(Function.identity(), counting()))
                 .entrySet().stream().filter(m -> m.getValue() > 1)
-                .map(Map.Entry::getKey).collect(Collectors.toSet());
+                .map(Map.Entry::getKey).collect(toSet());
         System.out.println(" " + c) ;
 
         //
@@ -195,7 +203,7 @@ public class PracticeInterview {
         String str1="abbcccdddd";
 
         Arrays.stream(str1.split(""))
-                .collect(groupingBy(s1 -> s1, Collectors.counting()))
+                .collect(groupingBy(s1 -> s1, counting()))
                 .entrySet()
                 .stream().max(Map.Entry.comparingByValue()).ifPresent(i -> {
                     System.out.println("maximum occurences  " + i);
@@ -232,7 +240,7 @@ public class PracticeInterview {
         System.out.println("Same sal emp names " + empNAmesHighsal);
 
         //Map of Map for getting sal and names , department
-      Map<Double, Map<String ,String >> EmpSalwithNameAndDept = corporateEmployees.stream().collect(Collectors.groupingBy(CorporateEmployees::getEmpSalary, Collectors.toMap(CorporateEmployees::getDepartmentName,CorporateEmployees::getEmpName)));
+      Map<Double, Map<String ,String >> EmpSalwithNameAndDept = corporateEmployees.stream().collect(groupingBy(CorporateEmployees::getEmpSalary, toMap(CorporateEmployees::getDepartmentName,CorporateEmployees::getEmpName)));
 
 
           System.out.println("Same Salaried Employees with Name and dept " + EmpSalwithNameAndDept) ;
