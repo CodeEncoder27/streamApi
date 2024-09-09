@@ -239,6 +239,10 @@ public class PracticeInterview {
 
         System.out.println("Same sal emp names " + empNAmesHighsal);
 
+        //
+        List<Integer> as = Arrays.asList(1,11,78,14,17,98,90);
+        List<String> opuy = as.stream().map(Object::toString).filter(oi -> oi.startsWith("1")).collect(toList());
+        System.out.println("Opuy: " + opuy);
         //Map of Map for getting sal and names , department
       Map<Double, Map<String ,String >> EmpSalwithNameAndDept = corporateEmployees.stream().collect(groupingBy(CorporateEmployees::getEmpSalary, toMap(CorporateEmployees::getDepartmentName,CorporateEmployees::getEmpName)));
 
