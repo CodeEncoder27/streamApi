@@ -1,7 +1,5 @@
 package brocode.datastructures.lists.linkedlists;
 
-import org.w3c.dom.Node;
-
 public class LinkedlListWithClass {
 
     static Node head;

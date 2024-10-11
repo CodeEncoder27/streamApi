@@ -1,6 +1,5 @@
 package hackerankquestions;
 
-import java.util.Arrays;
 import java.util.Scanner;
 
 public class PasswordChecker {
@@ -24,7 +23,7 @@ public class PasswordChecker {
         boolean hasSpecialChar = false;
 
         for (int i = 0; i < password.length(); i++){
-            char ch = password.charAt(i);
+                char ch = password.charAt(i);
             if(Character.isUpperCase(ch)){
                 hasUpperCase = true;
             } else if (Character.isLowerCase(ch)) {
